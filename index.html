@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Uday Narayan | Premium Portfolio</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&family=Space+Grotesk:wght@300;500;700&display=swap');
+
+        :root {
+            --bg: #030303;
+            --accent: #00f2ff;
+            --accent-dim: rgba(0, 242, 255, 0.15);
+            --glass: rgba(255, 255, 255, 0.03);
+            --text-main: #ffffff;
+            --text-dim: #a1a1aa;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: none; /* Custom cursor used instead */
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* --- Custom Cursor --- */
+        #cursor {
+            width: 20px;
+            height: 20px;
+            background: var(--accent);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.1s ease;
+            mix-blend-mode: difference;
+        }
+
+        /* --- Premium Background --- */
+        .bg-glow {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(0, 242, 255, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(147, 51, 234, 0.05) 0%, transparent 40%);
+            z-index: -1;
+        }
+
+        /* --- Navigation --- */
+        nav {
+            position: fixed;
+            top: 0; width: 100%;
+            padding: 25px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(15px);
+            background: rgba(3, 3, 3, 0.7);
+            border-bottom: 1px solid var(--glass);
+            z-index: 100;
+        }
+
+        .logo { font-family: 'Space Grotesk'; font-weight: 700; font-size: 1.5rem; letter-spacing: -1px; }
+        .logo span { color: var(--accent); }
+
+        .nav-links a {
+            color: var(--text-dim);
+            text-decoration: none;
+            margin-left: 40px;
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover { color: var(--accent); }
+
+        /* --- Hero Section --- */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0 10%;
+            position: relative;
+        }
+
+        .hero-tag {
+            color: var(--accent);
+            font-family: 'Space Grotesk';
+            font-weight: 500;
+            letter-spacing: 4px;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .hero h1 {
+            font-size: clamp(3.5rem, 10vw, 8rem);
+            font-weight: 900;
+            line-height: 0.9;
+            margin-bottom: 30px;
+            background: linear-gradient(to bottom, #fff 40%, #444 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            max-width: 600px;
+            color: var(--text-dim);
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+        }
+
+        /* --- Bento Grid (About & Experience) --- */
+        .bento-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: auto auto;
+            gap: 20px;
+            padding: 100px 10%;
+        }
+
+        .bento-item {
+            background: var(--glass);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 30px;
+            padding: 40px;
+            transition: 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bento-item:hover {
+            border-color: var(--accent);
+            background: rgba(255,255,255,0.05);
+        }
+
+        .large { grid-column: span 2; }
+        .tall { grid-row: span 2; }
+
+        .bento-item h3 { font-family: 'Space Grotesk'; font-size: 1.8rem; margin-bottom: 15px; }
+        .bento-item p { color: var(--text-dim); font-size: 0.95rem; }
+
+        /* --- Projects --- */
+        .section-header { padding: 0 10%; margin-bottom: 50px; }
+        .section-header h2 { font-size: 3rem; }
+
+        .project-card {
+            margin: 0 10% 40px 10%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            background: var(--glass);
+            border-radius: 40px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: 0.5s;
+        }
+
+        .project-card:hover { transform: scale(1.01); border-color: var(--accent-dim); }
+
+        .project-img {
+            background: #111;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .project-img i { font-size: 5rem; color: var(--accent); opacity: 0.3; }
+
+        .project-info { padding: 60px; display: flex; flex-direction: column; justify-content: center; }
+        .tech-stack { display: flex; gap: 10px; margin-top: 20px; }
+        .tech-stack span { 
+            padding: 5px 15px; background: rgba(255,255,255,0.05); 
+            border-radius: 20px; font-size: 0.7rem; color: var(--accent);
+        }
+
+        /* --- Footer --- */
+        footer {
+            padding: 100px 10%;
+            text-align: center;
+            border-top: 1px solid var(--glass);
+        }
+
+        .contact-trigger {
+            font-size: 4vw;
+            font-weight: 900;
+            text-decoration: none;
+            color: #fff;
+            transition: 0.3s;
+        }
+
+        .contact-trigger:hover { color: var(--accent); }
+
+        @media (max-width: 768px) {
+            .bento-container { grid-template-columns: 1fr; }
+            .large, .tall { grid-column: span 1; grid-row: span 1; }
+            .project-card { grid-template-columns: 1fr; }
+            nav { padding: 20px 5%; }
+            .nav-links { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="cursor"></div>
+    <div class="bg-glow"></div>
+
+    <nav>
+        <div class="logo">UDAY<span>NARAYAN.</span></div>
+        <div class="nav-links">
+            <a href="#about">About</a>
+            <a href="#work">Work</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <span class="hero-tag" data-aos="fade-down">BASED IN INDIA</span>
+        <h1 data-aos="fade-up" data-aos-delay="200">Engineer &<br>Full-Stack Dev.</h1>
+        <p data-aos="fade-up" data-aos-delay="400">Crafting robust digital solutions with the precision of a mechanical engineer and the creativity of a developer.</p>
+        <div data-aos="fade-up" data-aos-delay="600">
+            <a href="#work" class="contact-trigger" style="font-size: 1.2rem; border-bottom: 2px solid var(--accent);">View Selected Works →</a>
+        </div>
+    </section>
+
+    <section id="about" class="bento-container">
+        <div class="bento-item large" data-aos="fade-right">
+            <h3>Mechanical Engineering</h3>
+            <p>Diploma holder. I bring 3 years of academic rigor in understanding system dynamics, thermodynamics, and structural integrity. This foundation allows me to build code that is as stable as a physical machine.</p>
+        </div>
+
+        <div class="bento-item tall" data-aos="fade-left">
+            <h3>Hobbies</h3>
+            <div style="margin-top:20px;">
+                <p style="margin-bottom:15px;"><i class="fa-solid fa-guitar text-accent"></i> Guitar Enthusiast</p>
+                <p style="margin-bottom:15px;"><i class="fa-solid fa-book-open"></i> Avid Reader</p>
+                <p><i class="fa-solid fa-terminal"></i> Continuous Coding</p>
+            </div>
+            <i class="fa-solid fa-gears" style="position:absolute; bottom:-20px; right:-20px; font-size:10rem; opacity:0.03;"></i>
+        </div>
+
+        <div class="bento-item" data-aos="fade-up">
+            <h3>Full Stack</h3>
+            <p>Diploma in Software Dev. Specialized in the MERN stack and modern UI/UX principles.</p>
+        </div>
+
+        <div class="bento-item" data-aos="fade-up" data-aos-delay="200">
+            <h3>Philosophy</h3>
+            <p>"If you can't build it simply, you don't understand it well enough."</p>
+        </div>
+    </section>
+
+    <section id="work">
+        <div class="section-header">
+            <h2 data-aos="fade-right">Featured Projects</h2>
+        </div>
+
+        <div class="project-card" data-aos="fade-up">
+            <div class="project-img">
+                <i class="fa-solid fa-bag-shopping"></i>
+            </div>
+            <div class="project-info">
+                <h3>E-Commerce Ecosystem</h3>
+                <p>A high-end retail platform featuring seamless transitions, state management, and a focus on conversion optimization.</p>
+                <div class="tech-stack">
+                    <span>JavaScript</span><span>HTML5</span><span>CSS3</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="project-card" data-aos="fade-up">
+            <div class="project-info">
+                <h3>Atmospheric Weather</h3>
+                <p>An interactive weather application using OpenWeather API with dynamic glassmorphism cards that change color based on temperature.</p>
+                <div class="tech-stack">
+                    <span>API</span><span>JSON</span><span>UI Design</span>
+                </div>
+            </div>
+            <div class="project-img">
+                <i class="fa-solid fa-cloud-sun"></i>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact">
+        <p style="margin-bottom: 20px; color: var(--accent);">Ready to start a project?</p>
+        <a href="mailto:uday@example.com" class="contact-trigger">Let's Talk.</a>
+        <div style="margin-top: 50px; display: flex; justify-content: center; gap: 30px;">
+            <a href="#" style="color:var(--text-dim)"><i class="fa-brands fa-github fa-2x"></i></a>
+            <a href="#" style="color:var(--text-dim)"><i class="fa-brands fa-linkedin fa-2x"></i></a>
+        </div>
+        <p style="margin-top: 80px; font-size: 0.7rem; color: #333;">&copy; 2025 UDAY NARAYAN. ALL RIGHTS RESERVED.</p>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 1000, once: false });
+
+        // Custom Cursor Logic
+        const cursor = document.getElementById('cursor');
+        document.addEventListener('mousemove', e => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        // Hover Effect for Cursor
+        document.querySelectorAll('a, .bento-item, .project-card').forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                cursor.style.transform = 'scale(3)';
+                cursor.style.background = 'rgba(0, 242, 255, 0.2)';
+            });
+            item.addEventListener('mouseleave', () => {
+                cursor.style.transform = 'scale(1)';
+                cursor.style.background = 'var(--accent)';
+            });
+        });
+    </script>
+</body>
+</html>
