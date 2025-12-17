@@ -103,6 +103,44 @@
             margin-bottom: 20px;
             display: block;
         }
+               
+        .hero-image-wrapper {
+            position: relative;
+            width: 350px;
+            height: 450px;
+        }
+        
+        .image-border {
+            width: 100%;
+            height: 100%;
+            border-radius: 30px;
+            border: 1px solid var(--accent-dim);
+            overflow: hidden;
+            position: relative;
+            background: var(--glass);
+        }
+        
+        .profile-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* This ensures your photo doesn't stretch */
+            filter: grayscale(100%); /* Premium look */
+            transition: 0.5s ease;
+        }
+        
+        .image-border:hover .profile-img {
+            filter: grayscale(0%); /* Color returns on hover */
+            transform: scale(1.05);
+        }
+        
+        /* The Glowing Effect behind the photo */
+        .hero-image-wrapper::after {
+            content: '';
+            position: absolute;
+            inset: -20px;
+            background: radial-gradient(circle, var(--accent-dim) 0%, transparent 70%);
+            z-index: -1;
+        }   
 
         .hero h1 {
             font-size: clamp(3.5rem, 10vw, 8rem);
@@ -120,6 +158,63 @@
             font-size: 1.2rem;
             margin-bottom: 40px;
         }
+        .premium-btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    padding: 16px 32px;
+    background: transparent;
+    color: #00f2ff; /* Your Neon Accent Color */
+    text-decoration: none;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border: 1px solid rgba(0, 242, 255, 0.3);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1;
+}
+
+/* The Sliding Background Fill */
+.premium-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: #00f2ff;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: -1;
+}
+
+.btn-icon {
+    margin-left: 12px;
+    transition: transform 0.5s ease;
+}
+
+/* --- HOVER EFFECTS --- */
+
+.premium-btn:hover {
+    color: #000; /* Text turns black for contrast against neon */
+    box-shadow: 0 0 25px rgba(0, 242, 255, 0.5);
+    border-color: #00f2ff;
+}
+
+.premium-btn:hover::before {
+    left: 0;
+}
+
+.premium-btn:hover .btn-icon {
+    transform: translateX(5px);
+}
+
+.premium-btn:active {
+    transform: scale(0.95); /* Click feedback */
+}
 
         /* --- Bento Grid (About & Experience) --- */
         .bento-container {
@@ -226,13 +321,31 @@
     </nav>
 
     <section class="hero">
-        <span class="hero-tag" data-aos="fade-down">BASED IN INDIA</span>
-        <h1 data-aos="fade-up" data-aos-delay="200">Engineer &<br>Full-Stack Dev.</h1>
-        <p data-aos="fade-up" data-aos-delay="400">Crafting robust digital solutions with the precision of a mechanical engineer and the creativity of a developer.</p>
-        <div data-aos="fade-up" data-aos-delay="600">
-            <a href="#work" class="contact-trigger" style="font-size: 1.2rem; border-bottom: 2px solid var(--accent);">View Selected Works →</a>
+    <div class="hero-container" style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+        
+        <div class="hero-content">
+            <span class="hero-tag" data-aos="fade-down">BASED IN INDIA</span>
+            <h1 data-aos="fade-up" data-aos-delay="200">Engineer &<br>Full-Stack Dev.</h1>
+            <p data-aos="fade-up" data-aos-delay="400">Crafting robust digital solutions with the precision of a mechanical engineer.</p>
         </div>
-    </section>
+        <div class="button-wrapper" data-aos="fade-up" data-aos-delay="600">
+    <a href="#work" class="premium-btn">
+    <span class="btn-text">View My Work</span>
+    <span class="btn-icon">
+        <i class="fa-solid fa-arrow-right-long"></i>
+    </span>
+</a>
+</div>
+
+        <div class="hero-image-wrapper" data-aos="fade-left" data-aos-delay="400">
+            <div class="image-border">
+                <img src="WhatsApp Image 2025-12-17 at 17.05.12.jpeg" alt="Uday Narayan" class="profile-img">
+            </div>
+        </div>
+        
+        
+    </div>
+</section>
 
     <section id="about" class="bento-container">
         <div class="bento-item large" data-aos="fade-right">
@@ -274,7 +387,7 @@
                 <h3>E-Commerce Ecosystem</h3>
                 <p>A high-end retail platform featuring seamless transitions, state management, and a focus on conversion optimization.</p>
                 <div class="tech-stack">
-                    <span>JavaScript</span><span>HTML5</span><span>CSS3</span>
+                    <span>JavaScript</span><span>HTML5</span><span>CSS</span>
                 </div>
             </div>
         </div>
@@ -325,6 +438,20 @@
                 cursor.style.background = 'var(--accent)';
             });
         });
+        const btn = document.querySelector('.premium-btn');
+
+btn.addEventListener('mousemove', (e) => {
+    const position = btn.getBoundingClientRect();
+    const x = e.pageX - position.left - position.width / 2;
+    const y = e.pageY - position.top - position.height / 2;
+
+    // Adjust the 0.3 and 0.5 to make it more or less "magnetic"
+    btn.style.transform = `translate(${x * 0.2}px, ${y * 0.4}px)`;
+});
+
+btn.addEventListener('mouseout', () => {
+    btn.style.transform = 'translate(0px, 0px)';
+});
     </script>
 </body>
 </html>
